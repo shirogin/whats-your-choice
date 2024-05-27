@@ -5,8 +5,9 @@ export enum SocketEvent {
 	JoinRoom = 'join-room',
 	LeaveRoom = 'leave-room', */
 	// On events
-	PlayerLoggedIn = 'player-logged-in',
-	GameUpdated = 'game-updated',
+	PlayerLoggedIn = 'playerLoggedIn',
+	PlayerLoggedOut = 'playerLoggedOut',
+	GameUpdated = 'gameUpdated',
 	Error = 'err',
 
 	/* emited */
@@ -14,7 +15,12 @@ export enum SocketEvent {
 	LogOut = 'logOut',
 	ChooseCard = 'chooseCard',
 	RemoveCard = 'removeCard',
+	AddedCard = 'addedCard',
+	PassedTurn = 'passedTurn',
+	GuessCard = 'guessCard',
 	Restart = 'restart',
 
+	PlayerWon = 'playerWon',
+	PlayerLost = 'playerLost',
 	// Price = 'price',
 }

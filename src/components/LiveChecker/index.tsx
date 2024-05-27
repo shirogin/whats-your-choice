@@ -1,8 +1,8 @@
-import useGame from '@client/hooks/useGameR';
+import useGame from '@client/hooks/useGame';
 import { ConnectionsCheck } from './ConnectionsCheck';
 
 export default function LiveChecker() {
-	const { gameConnection } = useGame();
+	const { socketConnection, currentPlayerIndex } = useGame();
 
-	return <button className="btn">{ConnectionsCheck[gameConnection]}</button>;
+	return <button className="btn">{ConnectionsCheck[currentPlayerIndex >= 0 ? socketConnection : 'inRoom']}</button>;
 }

@@ -1,5 +1,5 @@
 import Logo from '#client/Logo';
-import useGame from '@client/hooks/useGameR';
+import useGame from '@client/hooks/useGame';
 import { usernameValidator } from '@client/validators/username';
 import { useState } from 'react';
 import { ZodError } from 'zod';
@@ -43,7 +43,7 @@ export default function Welcome() {
 			<button
 				className="btn btn-primary"
 				onClick={() => {
-					if (currentPlayer.username) {
+					if (currentPlayer?.username) {
 						logIn();
 					}
 				}}

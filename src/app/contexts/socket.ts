@@ -23,16 +23,23 @@ const socketSlice = createSlice({
 		initSocket: (state) => {
 			state.Is = 'loading';
 		},
+		disconnectSocket: () => {},
+
 		connectionEstablished: (state) => {
 			state.Is = 'connected';
 		},
 		connectionLost: (state) => {
 			state.Is = 'disconnected';
 		},
-		requestLogin: () => {},
+		requestLogin: (state) => {
+			console.log('state', state);
+		},
 		requestLogOut: () => {},
 		removeCard: (_state, _action: { type: string; payload: number }) => {},
 		chooseCard: (_state, _action: { type: string; payload: number }) => {},
+		guessCard: (_state, _action: { type: string; payload: number }) => {},
+		addCard: (_state, _action: { type: string; payload: number }) => {},
+		passTurn: (_state) => {},
 		restartGame: () => {},
 		/* joinRoom: (state, action: RoomAction) => {
 			// After the required room is joined through middleware, we manage state here!
@@ -53,6 +60,10 @@ export const {
 	removeCard,
 	chooseCard,
 	restartGame,
+	disconnectSocket,
+	guessCard,
+	addCard,
+	passTurn,
 	/* ,joinRoom */
 } = socketSlice.actions;
 // Export the reducer for this slice

@@ -1,23 +1,37 @@
-import { LogOut, SetPlayerName, SelectCard } from '@client/app/contexts/game';
+import { SetPlayerName, SelectCard, SetMode } from '@client/app/contexts/game';
 import { useAppDispatch, useAppSelector } from './redux';
-import { removeCard, chooseCard, requestLogOut, requestLogin, restartGame } from '@client/app/contexts/socket';
+import {
+	removeCard,
+	chooseCard,
+	requestLogOut,
+	requestLogin,
+	restartGame,
+	guessCard,
+	passTurn,
+	addCard,
+} from '@client/app/contexts/socket';
 
 const useGame = () => {
 	const dispatch = useAppDispatch();
 	const state = useAppSelector((state) => state.game);
+	const socket = useAppSelector((state) => state.socket);
 	const players = [state.gameState.player1, state.gameState.player2];
+	const currentPlayerIndex = players.findIndex((player) => player?.username === state.currentPlayer?.username);
 	return {
 		...state,
 		players,
+		socketConnection: socket.Is,
 		logIn: () => {
 			dispatch(requestLogin());
 		},
 		logOut: () => {
 			dispatch(requestLogOut());
-			dispatch(LogOut());
 		},
 		removeCard: (cardId: number) => {
 			dispatch(removeCard(cardId));
+		},
+		guessCard: (cardId: number) => {
+			dispatch(guessCard(cardId));
 		},
 		chooseCard: (cardId: number) => {
 			dispatch(chooseCard(cardId));
@@ -28,10 +42,22 @@ const useGame = () => {
 		setPlayerName: (name: string) => {
 			dispatch(SetPlayerName(name));
 		},
-		setTempSelectedCard: (cardId: number | null) => {
+		setSelectedCard: (cardId: number | null) => {
+			console.log({ cardId });
 			dispatch(SelectCard(cardId));
 		},
-		currentPlayerIndex: players.findIndex((player) => player?.username === state.currentPlayer?.username),
+		setMode: (mode: 'switch' | 'guess') => {
+			dispatch(SetMode(mode));
+		},
+		addCard: (cardId: number) => {
+			dispatch(addCard(cardId));
+		},
+		passTurn: () => {
+			dispatch(passTurn());
+		},
+		currentPlayerIndex,
+		currentPlayer: (players[currentPlayerIndex] ? players[currentPlayerIndex] : state.currentPlayer) as Player,
+		myTurn: state.gameState.currentTurn === 'player' + (currentPlayerIndex + 1),
 	};
 };
 export default useGame;

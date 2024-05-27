@@ -1,8 +1,9 @@
-import useGame from '@client/hooks/useGameR';
+import useGame from '@client/hooks/useGame';
 import Cards from './Cards';
-import ActionsButton from './ActionsButton2';
+import ActionsButton from './ActionsButton';
+const turn = ['Your Turn', 'Waiting for opponent', ''];
 export default function Board({ player }: { player: 0 | 1 }) {
-	const { players, currentPlayerIndex, gameState } = useGame();
+	const { players, currentPlayerIndex, gameState, myTurn } = useGame();
 	const thisPlayer = players[player];
 	const otherPlayer = players[1 - player];
 
@@ -12,9 +13,12 @@ export default function Board({ player }: { player: 0 | 1 }) {
 				<h1 className="text-4xl">No player {player} yet !!</h1>
 			</div>
 		);
+	const PlayerStatus =
+		turn[gameState.state === 'started' ? (currentPlayerIndex === player ? (myTurn ? 0 : 1) : 2) : 2];
+
 	return (
-		<div className="w-full flex flex-col gap-8">
-			{!thisPlayer.currentChoosenCard ? (
+		<div className="w-full flex flex-col gap-8 ">
+			{!thisPlayer.currentChoosenCard && (
 				<div role="alert" className="alert alert-info">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -35,10 +39,12 @@ export default function Board({ player }: { player: 0 | 1 }) {
 							: 'waiting for the other player to select a card'}
 					</span>
 				</div>
-			) : (
-				currentPlayerIndex === player && <ActionsButton state={gameState.state} />
 			)}
-			<h1 className="text-4xl text-center w-full">{thisPlayer.username}</h1>
+			<div className="w-full flex">
+				<h1 className="text-4xl w-full mb-auto">{thisPlayer.username}</h1>
+				{PlayerStatus && <button className="btn btn-secondary pointer-events-none">{PlayerStatus}</button>}
+			</div>
+			{currentPlayerIndex === player && <ActionsButton state={gameState.state} />}
 			<Cards cards={thisPlayer.cards} thisPlayer={thisPlayer} player={player} otherPlayer={otherPlayer} />
 		</div>
 	);

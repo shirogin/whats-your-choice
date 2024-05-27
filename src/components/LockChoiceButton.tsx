@@ -1,11 +1,17 @@
-import useGame from '@client/hooks/useGameR';
-
+import useGame from '@client/hooks/useGame';
+import NoAction from './NoAction';
 export default function LockChoiceButton() {
-	const { tempSelectedCard, chooseCard } = useGame();
+	const { selectedCard, chooseCard, setSelectedCard, currentPlayer } = useGame();
 
-	if (tempSelectedCard === null) return <></>;
+	if (selectedCard === null || currentPlayer?.currentChoosenCard != null) return <NoAction />;
 	return (
-		<button onClick={() => chooseCard(tempSelectedCard)} className="btn btn-primary">
+		<button
+			onClick={() => {
+				chooseCard(selectedCard);
+				setSelectedCard(null);
+			}}
+			className="btn btn-primary ml-auto"
+		>
 			Lock Choice
 		</button>
 	);

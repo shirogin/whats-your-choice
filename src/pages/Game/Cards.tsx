@@ -1,5 +1,5 @@
 import Loading from '#client/Loading';
-import useGame from '@client/hooks/useGameR';
+import useGame from '@client/hooks/useGame';
 import Card from './CharachterCard';
 
 export default function Cards({
@@ -13,23 +13,45 @@ export default function Cards({
 	thisPlayer: Player;
 	otherPlayer: Player | null;
 }) {
-	const { cards: cardsCollection, gameState, currentPlayerIndex, tempSelectedCard, setTempSelectedCard } = useGame();
+	const {
+		cards: cardsCollection,
+		gameState,
+		currentPlayerIndex,
+		selectedCard,
+		setSelectedCard,
+		mode,
+		removeCard,
+		guessCard,
+		addCard,
+		myTurn,
+	} = useGame();
 	if (!cardsCollection) return <Loading className="w-32 mx-auto my-10" />;
 
-	const formedCards: FormedCard[] = cardsCollection.cards.map((card) => ({
-		...card,
-		isFlipped: cards.includes(card.id),
-		isMatched: false,
-		isChoosen: otherPlayer?.currentChoosenCard === card.id,
-		isSelected: thisPlayer.lastCardClicked === card.id,
-		isTempSelected: currentPlayerIndex === player && tempSelectedCard === card.id,
-		OnClick:
-			currentPlayerIndex === player
-				? gameState.state === 'notStarted'
-					? setTempSelectedCard
-					: () => {}
-				: undefined,
-	}));
+	const formedCards: FormedCard[] = cardsCollection.cards.map((card) => {
+		const isFlipped = cards.includes(card.id);
+		return {
+			...card,
+			isFlipped,
+			isMatched: false,
+			isChoosen: otherPlayer?.currentChoosenCard === card.id,
+			isSelected: thisPlayer.lastCardClicked === card.id,
+			isTempSelected: currentPlayerIndex === player && selectedCard === card.id,
+			OnClick:
+				currentPlayerIndex === player
+					? gameState.state === 'notStarted'
+						? setSelectedCard
+						: gameState.state === 'finished'
+							? undefined
+							: myTurn
+								? mode === 'guess'
+									? guessCard
+									: isFlipped
+										? removeCard
+										: addCard
+								: undefined
+					: undefined,
+		};
+	});
 	return (
 		<div className="w-full grid grid-cols-6 items-center gap-4">
 			{formedCards.map((card) => {

@@ -23,7 +23,7 @@ declare interface Player extends PlayerInfo {
 	score: number;
 	lastCardClicked: number | null;
 	currentChoosenCard: number | null;
-	cards: T[];
+	cards: number[];
 }
 declare interface PlayerWithSocket extends Player {
 	socketId: string;
@@ -31,6 +31,7 @@ declare interface PlayerWithSocket extends Player {
 type PlayerPosition = 'player1' | 'player2';
 declare type GameStatesI = 'started' | 'notStarted' | 'finished';
 declare interface GameState<StartedT extends GameStatesI = GameStatesI> {
+	canSwitchMode: boolean;
 	player1: StartedT extends 'notStarted' ? Player | null : Player;
 	state: StartedT;
 	player2: StartedT extends 'notStarted' ? Player | null : Player;
@@ -50,11 +51,14 @@ declare interface GameEvents {
 	gameStateUpdated: (state: DirectedGameState) => void;
 	playerLoggedOut: (socketId: string) => void;
 	roomIsFull: (socketId: string) => void;
-	playerAlreadyLoggedOut: (socketId: string) => void;
+	playerAlreadyLoggedOut: (socketId: string, state: DirectedGameState) => void;
 	errorHappened: (message: string) => void;
+	playerWon: (socketId: string, username: string) => void;
+	playerLost: (socketId: string, username: string) => void;
 }
 declare type GameEventsName = keyof GameEvents;
 interface GameManagerI {
+	mode: 'switch' | 'guess';
 	selectedCard: number | null;
 	gameState: GameState;
 	currentPlayer: PlayerInfo;

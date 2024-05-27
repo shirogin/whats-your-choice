@@ -3,6 +3,7 @@ import socketMiddleware from '$client/socket';
 // import API from '$client';
 
 import game from './contexts/game';
+import socket from './contexts/socket';
 // import modal from './contexts/modal';
 //import notifications from './contexts/notifications';
 //import search from './contexts/search';
@@ -11,6 +12,7 @@ import game from './contexts/game';
 const store = configureStore({
 	reducer: {
 		game,
+		socket,
 		// language,
 		/* modal, */
 		/* user, */
