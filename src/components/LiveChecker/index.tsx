@@ -1,4 +1,4 @@
-import useGame from '@client/hooks/useGame';
+import useGame from '@client/hooks/useGameR';
 import { ConnectionsCheck } from './ConnectionsCheck';
 
 export default function LiveChecker() {

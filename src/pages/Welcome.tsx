@@ -1,5 +1,5 @@
 import Logo from '#client/Logo';
-import useGame from '@client/hooks/useGame';
+import useGame from '@client/hooks/useGameR';
 import { usernameValidator } from '@client/validators/username';
 import { useState } from 'react';
 import { ZodError } from 'zod';

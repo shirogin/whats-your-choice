@@ -1,4 +1,4 @@
-import useGame from '@client/hooks/useGame';
+import useGame from '@client/hooks/useGameR';
 import Cards from './Cards';
 import ActionsButton from './ActionsButton2';
 export default function Board({ player }: { player: 0 | 1 }) {

@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useReducer } from 'react';
 import io from 'socket.io-client';
 import { SOCKET_URL } from '&client/web';
-import { SocketContext, socketReducer } from '@client/app/contexts/game';
+import { SocketContext, socketReducer } from '@client/app/contexts/gameR';
 import toast from 'react-hot-toast';
 import type { GlobaleGameState } from '@client/types/globalGameState';
 const username = sessionStorage.getItem('username') || '';

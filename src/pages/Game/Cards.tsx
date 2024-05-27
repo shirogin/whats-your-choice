@@ -1,5 +1,5 @@
 import Loading from '#client/Loading';
-import useGame from '@client/hooks/useGame';
+import useGame from '@client/hooks/useGameR';
 import Card from './CharachterCard';
 
 export default function Cards({

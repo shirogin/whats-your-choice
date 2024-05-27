@@ -1,4 +1,4 @@
-import useGame from '@client/hooks/useGame';
+import useGame from '@client/hooks/useGameR';
 import { lazy } from 'react';
 import { Navigate, useRoutes } from 'react-router-dom';
 

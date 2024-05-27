@@ -1,51 +1,36 @@
-import { useContext, useState } from 'react';
-import { SocketContext } from '@client/app/contexts/game';
+import { LogOut, SetPlayerName, SelectCard } from '@client/app/contexts/game';
+import { useAppDispatch, useAppSelector } from './redux';
+import { removeCard, chooseCard, requestLogOut, requestLogin, restartGame } from '@client/app/contexts/socket';
 
 const useGame = () => {
-	const context = useContext(SocketContext);
-	if (context === undefined) {
-		throw new Error('useGame must be used within a SocketProvider');
-	}
-	const [tempSelectedCard, setTempSelectedCard] = useState<number | null>(null);
-	const { state, dispatch } = context;
+	const dispatch = useAppDispatch();
+	const state = useAppSelector((state) => state.game);
 	const players = [state.gameState.player1, state.gameState.player2];
 	return {
 		...state,
 		players,
 		logIn: () => {
-			if (state.socket) {
-				sessionStorage.setItem('username', state.currentPlayer.username);
-				state.socket.emit('logIn', state.currentPlayer);
-			}
+			dispatch(requestLogin());
 		},
 		logOut: () => {
-			if (state.socket) {
-				sessionStorage.removeItem('username');
-				state.socket.emit('logOut');
-				dispatch({ type: 'LOG_OUT' });
-			}
+			dispatch(requestLogOut());
+			dispatch(LogOut());
 		},
 		removeCard: (cardId: number) => {
-			if (state.socket) {
-				state.socket.emit('removeCard', cardId);
-			}
+			dispatch(removeCard(cardId));
 		},
 		chooseCard: (cardId: number) => {
-			if (state.socket) {
-				console.log('card been choosen', cardId);
-				state.socket.emit('chooseCard', cardId);
-			}
+			dispatch(chooseCard(cardId));
 		},
 		restartGame: () => {
-			if (state.socket) {
-				state.socket.emit('restart');
-			}
+			dispatch(restartGame());
 		},
 		setPlayerName: (name: string) => {
-			dispatch({ type: 'SET_PLAYER_NAME', payload: name });
+			dispatch(SetPlayerName(name));
 		},
-		tempSelectedCard,
-		setTempSelectedCard,
+		setTempSelectedCard: (cardId: number | null) => {
+			dispatch(SelectCard(cardId));
+		},
 		currentPlayerIndex: players.findIndex((player) => player?.username === state.currentPlayer?.username),
 	};
 };

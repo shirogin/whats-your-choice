@@ -1,7 +1,8 @@
 import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
-
+import socketMiddleware from '$client/socket';
 // import API from '$client';
 
+import game from './contexts/game';
 // import modal from './contexts/modal';
 //import notifications from './contexts/notifications';
 //import search from './contexts/search';
@@ -9,12 +10,14 @@ import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
 
 const store = configureStore({
 	reducer: {
+		game,
 		// language,
 		/* modal, */
 		/* user, */
 		// search,
 		// notifications,
 	},
+	middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(socketMiddleware),
 });
 
 export const dispatch = store.dispatch;

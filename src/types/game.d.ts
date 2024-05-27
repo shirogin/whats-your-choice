@@ -54,3 +54,9 @@ declare interface GameEvents {
 	errorHappened: (message: string) => void;
 }
 declare type GameEventsName = keyof GameEvents;
+interface GameManagerI {
+	selectedCard: number | null;
+	gameState: GameState;
+	currentPlayer: PlayerInfo;
+	cards: CardsJSON | null;
+}

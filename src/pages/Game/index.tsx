@@ -1,6 +1,6 @@
 import LiveChecker from '#client/LiveChecker';
 import Logo from '#client/Logo';
-import useGame from '@client/hooks/useGame';
+import useGame from '@client/hooks/useGameR';
 import Board from './Board';
 import ScoreBoard from './ScoreBoard';
 function LogoutButton() {

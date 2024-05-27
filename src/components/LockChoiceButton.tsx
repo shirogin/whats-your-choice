@@ -1,4 +1,4 @@
-import useGame from '@client/hooks/useGame';
+import useGame from '@client/hooks/useGameR';
 
 export default function LockChoiceButton() {
 	const { tempSelectedCard, chooseCard } = useGame();
