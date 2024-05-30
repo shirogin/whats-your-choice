@@ -25,6 +25,7 @@ class SocketConnection implements SocketInterface {
 		}); */
 		// PlayerLoggedIn event
 		this.socket.on(SocketEvent.RecievedCardChoices, (cards: CardEssential<string>[]) => {
+			console.log({ cards });
 			store.dispatch(SetChoices(cards));
 		});
 		// PlayerLoggedIn event
