@@ -3,7 +3,7 @@ interface ActionI {
 }
 interface LOG_OUT_Action extends ActionI {}
 interface PLAYER_LOGGED_IN_Action extends ActionI {
-	payload: CardsJSON;
+	payload: { cardsCollection: CardsJSON; roomId: string };
 }
 interface SET_PLAYER_NAME_Action extends ActionI {
 	payload: string;

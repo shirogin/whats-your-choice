@@ -1,5 +1,5 @@
-declare interface CardEssential {
-	id: number;
+declare interface CardEssential<ID = number> {
+	id: ID;
 	name: string;
 	image: string;
 }
@@ -57,10 +57,3 @@ declare interface GameEvents {
 	playerLost: (socketId: string, username: string) => void;
 }
 declare type GameEventsName = keyof GameEvents;
-interface GameManagerI {
-	mode: 'switch' | 'guess';
-	selectedCard: number | null;
-	gameState: GameState;
-	currentPlayer: PlayerInfo;
-	cards: CardsJSON | null;
-}

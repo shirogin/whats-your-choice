@@ -10,7 +10,7 @@ export default function Board({ player }: { player: 0 | 1 }) {
 	if (!thisPlayer)
 		return (
 			<div className="w-full flex items-center justify-center min-h-48 h-full bg-base-300">
-				<h1 className="text-4xl">No player {player} yet !!</h1>
+				<h1 className="text-4xl">No player {player + 1} yet !!</h1>
 			</div>
 		);
 	const PlayerStatus =

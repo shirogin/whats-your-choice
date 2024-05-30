@@ -31,8 +31,11 @@ const socketSlice = createSlice({
 		connectionLost: (state) => {
 			state.Is = 'disconnected';
 		},
-		requestLogin: (state) => {
-			console.log('state', state);
+		joinRoom: (state, action: { payload: string }) => {
+			console.log('state', state, action);
+		},
+		createRoom: (state, action: { payload: string }) => {
+			console.log('state', state, action);
 		},
 		requestLogOut: () => {},
 		removeCard: (_state, _action: { type: string; payload: number }) => {},
@@ -55,7 +58,8 @@ export const {
 	initSocket,
 	connectionEstablished,
 	connectionLost,
-	requestLogin,
+	joinRoom,
+	createRoom,
 	requestLogOut,
 	removeCard,
 	chooseCard,

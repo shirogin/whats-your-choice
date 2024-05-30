@@ -1,9 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 const username = sessionStorage.getItem('username') || '';
+const room = sessionStorage.getItem('room') || null;
 const mode = (sessionStorage.getItem('mode') || 'switch') as 'switch' | 'guess';
 const initialState: GameManagerI = {
+	choices: [],
 	mode,
 	selectedCard: null,
+	room,
 	currentPlayer: { username },
 	cards: null,
 	gameState: {
@@ -19,18 +22,19 @@ const game = createSlice({
 	name: 'game',
 	initialState: initialState,
 	reducers: {
-		/* 	LOG_OUT_Action
-			PLAYER_LOGGED_IN_Action
-			SET_PLAYER_NAME_Action
-			GAME_UPDATED_Action 
-		*/
+		SetChoices: (state, action: { payload: CardEssential<string>[] }) => {
+			state.choices = action.payload;
+		},
 		PlayerLoggedOut: (state) => {
 			sessionStorage.removeItem('username');
 			state.currentPlayer = { username: '' };
+			state.room = null;
 		},
 		PlayerLoggedIn: (state, action: PLAYER_LOGGED_IN_Action) => {
-			state.cards = action.payload;
+			state.cards = action.payload.cardsCollection;
 			sessionStorage.setItem('username', state.currentPlayer.username);
+			state.room = action.payload.roomId;
+			sessionStorage.setItem('room', state.room);
 		},
 		SetPlayerName: (state, action: SET_PLAYER_NAME_Action) => {
 			state.currentPlayer.username = action.payload;
@@ -48,6 +52,7 @@ const game = createSlice({
 	},
 });
 
-export const { GameUpdated, PlayerLoggedOut, PlayerLoggedIn, SetPlayerName, SelectCard, SetMode } = game.actions;
+export const { GameUpdated, PlayerLoggedOut, PlayerLoggedIn, SetPlayerName, SelectCard, SetMode, SetChoices } =
+	game.actions;
 
 export default game.reducer;

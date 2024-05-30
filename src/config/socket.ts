@@ -2,7 +2,7 @@ import { io, Socket } from 'socket.io-client';
 import { SOCKET_URL } from './web';
 import { SocketEvent } from '@client/types/Event';
 import store from '@client/app/store';
-import { GameUpdated, PlayerLoggedIn, PlayerLoggedOut } from '@client/app/contexts/game';
+import { GameUpdated, PlayerLoggedIn, PlayerLoggedOut, SetChoices } from '@client/app/contexts/game';
 import toast from 'react-hot-toast';
 import { connectionEstablished, connectionLost } from '@client/app/contexts/socket';
 
@@ -20,10 +20,16 @@ class SocketConnection implements SocketInterface {
 			console.log('Game updated');
 			store.dispatch(GameUpdated(gameState));
 		});
-
+		/* this.socket.onAny((args) => {
+			console.log(args);
+		}); */
 		// PlayerLoggedIn event
-		this.socket.on(SocketEvent.PlayerLoggedIn, (cardsCollection: CardsJSON) => {
-			store.dispatch(PlayerLoggedIn(cardsCollection));
+		this.socket.on(SocketEvent.RecievedCardChoices, (cards: CardEssential<string>[]) => {
+			store.dispatch(SetChoices(cards));
+		});
+		// PlayerLoggedIn event
+		this.socket.on(SocketEvent.PlayerLoggedIn, (cardsCollection: CardsJSON, roomId: string) => {
+			store.dispatch(PlayerLoggedIn({ cardsCollection, roomId }));
 		});
 		// PlayerLoggedOut
 		this.socket.on(SocketEvent.PlayerLoggedOut, () => {
@@ -57,8 +63,8 @@ class SocketConnection implements SocketInterface {
 		});
 
 		const game = store.getState().game;
-		if (game.currentPlayer.username) {
-			this.socket.emit(SocketEvent.LogIn, game.currentPlayer);
+		if (game.currentPlayer.username && game.room) {
+			this.socket.emit(SocketEvent.JoinRoom, game.room, game.currentPlayer);
 		}
 	}
 }

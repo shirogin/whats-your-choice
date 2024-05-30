@@ -1,9 +1,12 @@
 import useGame from '@client/hooks/useGame';
+
 import { lazy } from 'react';
 import { Navigate, useRoutes } from 'react-router-dom';
 
 const Welcome = lazy(() => import('@client/pages/Welcome'));
 const Game = lazy(() => import('@client/pages/Game'));
+const JoinRoom = lazy(() => import('@client/pages/JoinRoom'));
+const CreateRoom = lazy(() => import('@client/pages/CreateRoom'));
 
 // const Languages = lazy(() => import('@client/pages/Languages'));
 
@@ -17,6 +20,14 @@ export default function Routes() {
 		{
 			path: 'welcome',
 			element: currentPlayerIndex >= 0 ? <Navigate to={'/game'} /> : <Welcome />,
+		},
+		{
+			path: 'join-room',
+			element: currentPlayerIndex >= 0 ? <Navigate to={'/game'} /> : <JoinRoom />,
+		},
+		{
+			path: 'create-room',
+			element: currentPlayerIndex >= 0 ? <Navigate to={'/game'} /> : <CreateRoom />,
 		},
 		{
 			path: 'game',

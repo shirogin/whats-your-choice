@@ -4,12 +4,24 @@ import {
 	removeCard,
 	chooseCard,
 	requestLogOut,
-	requestLogin,
 	restartGame,
 	guessCard,
 	passTurn,
 	addCard,
+	joinRoom,
+	createRoom,
 } from '@client/app/contexts/socket';
+export const useRoom = () => {
+	const dispatch = useAppDispatch();
+	return {
+		joinRoom: (roomId: string) => {
+			dispatch(joinRoom(roomId));
+		},
+		createRoom: (roomId: string) => {
+			dispatch(createRoom(roomId));
+		},
+	};
+};
 
 const useGame = () => {
 	const dispatch = useAppDispatch();
@@ -21,9 +33,6 @@ const useGame = () => {
 		...state,
 		players,
 		socketConnection: socket.Is,
-		logIn: () => {
-			dispatch(requestLogin());
-		},
 		logOut: () => {
 			dispatch(requestLogOut());
 		},

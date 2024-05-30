@@ -22,7 +22,7 @@ const gameStatesClassNames: Record<GameStatesI, string> = {
 	finished: 'btn-success',
 };
 export default function Game() {
-	const { currentPlayerIndex, gameState, restartGame } = useGame();
+	const { currentPlayerIndex, gameState, restartGame, room } = useGame();
 
 	return (
 		<main className="flex flex-col items-center py-16 px-8 w-full mx-auto gap-8">
@@ -40,6 +40,15 @@ export default function Game() {
 				>
 					Restart Game
 				</button>
+			</div>
+			<div
+				className="text-white bg-slate-700 px-10 py-2 rounded-xl hover:cursor-pointer"
+				onClick={() => {
+					// copy room to clipboard
+					navigator.clipboard.writeText(room!);
+				}}
+			>
+				{room}
 			</div>
 			<ScoreBoard />
 			<div
