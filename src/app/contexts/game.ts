@@ -28,6 +28,7 @@ const game = createSlice({
 		PlayerLoggedOut: (state) => {
 			sessionStorage.removeItem('username');
 			state.currentPlayer = { username: '' };
+			sessionStorage.removeItem('room');
 			state.room = null;
 		},
 		PlayerLoggedIn: (state, action: PLAYER_LOGGED_IN_Action) => {
