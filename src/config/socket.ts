@@ -20,9 +20,9 @@ class SocketConnection implements SocketInterface {
 			console.log('Game updated');
 			store.dispatch(GameUpdated(gameState));
 		});
-		/* this.socket.onAny((args) => {
+		this.socket.onAny((...args) => {
 			console.log(args);
-		}); */
+		});
 		// PlayerLoggedIn event
 		this.socket.on(SocketEvent.RecievedCardChoices, (cards: CardEssential<string>[]) => {
 			console.log({ cards });
