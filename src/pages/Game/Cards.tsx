@@ -32,7 +32,7 @@ export default function Cards({
 		return {
 			...card,
 			isFlipped,
-			isMatched: false,
+			isMatched: gameState.state === 'finished' && thisPlayer.currentChoosenCard === card.id,
 			isChoosen: otherPlayer?.currentChoosenCard === card.id,
 			isSelected: thisPlayer.lastCardClicked === card.id,
 			isTempSelected: currentPlayerIndex === player && selectedCard === card.id,
