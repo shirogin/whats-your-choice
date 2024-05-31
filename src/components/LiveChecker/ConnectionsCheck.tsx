@@ -20,7 +20,7 @@ export const ConnectionsCheck: Record<ConnectionStates, JSX.Element> = {
 	inRoom: (
 		<>
 			<div className="w-3 h-3 bg-green-600 rounded-full" />
-			You are live!
+			You are in a room!
 		</>
 	),
 };

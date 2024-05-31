@@ -16,6 +16,28 @@ class SocketConnection implements SocketInterface {
 	// The constructor will initialize the Socket Connection
 	constructor() {
 		this.socket = io(this.socketEndpoint);
+		this.socket.on(SocketEvent.Connect, () => {
+			console.log('connected');
+			store.dispatch(connectionEstablished());
+			this.SocketEvents();
+
+			// Handle disconnect event
+		});
+		this.socket.on(SocketEvent.Disconnect, () => {
+			console.log('disconnected');
+			store.dispatch(connectionLost());
+		});
+		this.socket.on('connect_error', (error) => {
+			console.log('connect_error', error);
+			store.dispatch(connectionLost());
+		});
+
+		const game = store.getState().game;
+		if (game.currentPlayer.username && game.room) {
+			this.socket.emit(SocketEvent.JoinRoom, game.room, game.currentPlayer);
+		}
+	}
+	SocketEvents = () => {
 		this.socket.on(SocketEvent.GameUpdated, (gameState: GameState) => {
 			console.log('Game updated');
 			store.dispatch(GameUpdated(gameState));
@@ -49,25 +71,12 @@ class SocketConnection implements SocketInterface {
 		this.socket.on(SocketEvent.Error, (message: string) => {
 			toast.error(message);
 		});
-		this.socket.on(SocketEvent.Connect, () => {
-			store.dispatch(connectionEstablished());
-		});
 
 		// handle all Error events
 		this.socket.on(SocketEvent.Error, (message) => {
 			console.error(message);
 		});
-
-		// Handle disconnect event
-		this.socket.on(SocketEvent.Disconnect, () => {
-			store.dispatch(connectionLost());
-		});
-
-		const game = store.getState().game;
-		if (game.currentPlayer.username && game.room) {
-			this.socket.emit(SocketEvent.JoinRoom, game.room, game.currentPlayer);
-		}
-	}
+	};
 }
 
 let socketConnection: SocketConnection | undefined;
