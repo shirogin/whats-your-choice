@@ -1,10 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 const username = sessionStorage.getItem('username') || '';
 const room = sessionStorage.getItem('room') || null;
-const mode = (sessionStorage.getItem('mode') || 'switch') as 'switch' | 'guess';
 const initialState: GameManagerI = {
 	choices: [],
-	mode,
+	mode: 'switch',
 	selectedCard: null,
 	room,
 	currentPlayer: { username },
@@ -48,7 +47,6 @@ const game = createSlice({
 		},
 		SetMode: (state, action: { payload: 'switch' | 'guess' }) => {
 			if (state.gameState.canSwitchMode) state.mode = action.payload;
-			sessionStorage.setItem('mode', state.mode);
 		},
 	},
 });
