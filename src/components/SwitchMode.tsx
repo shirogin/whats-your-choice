@@ -8,27 +8,34 @@ export default function SwitchMode() {
 		passTurn,
 		myTurn,
 	} = useGame();
-	return (
-		<>
-			<label className="swap swap-flip text-6xl mx-auto">
-				{/* this hidden checkbox controls the state */}
-				<input
-					type="checkbox"
-					aria-checked={mode === 'guess'}
+	if (mode === 'switch')
+		return (
+			<>
+				<button
+					className="text-6xl cursor-pointer"
 					disabled={!canSwitchMode || !myTurn}
 					onClick={() => {
 						setMode();
 					}}
-				/>
-
-				<div className="swap-on">🤔 Guess</div>
-				<div className="swap-off">🔄️ Switch</div>
-			</label>
-			{mode === 'switch' && myTurn && (
-				<button className="btn btn-primary" onClick={passTurn}>
-					Pass Turn
+				>
+					🔄️ Switch
 				</button>
-			)}
-		</>
+				{myTurn && (
+					<button className="btn btn-primary" onClick={passTurn}>
+						Pass Turn
+					</button>
+				)}
+			</>
+		);
+	return (
+		<button
+			className="text-6xl cursor-pointer"
+			disabled={!canSwitchMode || !myTurn}
+			onClick={() => {
+				setMode();
+			}}
+		>
+			🤔 Guess
+		</button>
 	);
 }
