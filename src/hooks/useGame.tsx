@@ -55,8 +55,8 @@ const useGame = () => {
 			console.log({ cardId });
 			dispatch(SelectCard(cardId));
 		},
-		setMode: (mode: 'switch' | 'guess') => {
-			dispatch(SetMode(mode));
+		setMode: () => {
+			dispatch(SetMode());
 		},
 		addCard: (cardId: number) => {
 			dispatch(addCard(cardId));

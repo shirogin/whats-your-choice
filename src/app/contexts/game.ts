@@ -45,8 +45,8 @@ const game = createSlice({
 		SelectCard: (state, action: SELECT_CARD_Action) => {
 			state.selectedCard = action.payload;
 		},
-		SetMode: (state, action: { payload: 'switch' | 'guess' }) => {
-			if (state.gameState.canSwitchMode) state.mode = action.payload;
+		SetMode: (state) => {
+			if (state.gameState.canSwitchMode) state.mode = state.mode === 'switch' ? 'guess' : 'switch';
 		},
 	},
 });

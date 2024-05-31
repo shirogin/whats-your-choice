@@ -17,7 +17,7 @@ export default function SwitchMode() {
 					aria-checked={mode === 'guess'}
 					disabled={!canSwitchMode || !myTurn}
 					onClick={() => {
-						setMode(mode === 'guess' ? 'switch' : 'guess');
+						setMode();
 					}}
 				/>
 
